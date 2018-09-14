@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cogitator.adfreenews">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:name=".NewsApp"
         android:allowBackup="true"
@@ -26,6 +27,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="f2f937b71739b962c3423c54ae7c28fa1406a76a" />
 
     </application>
 </manifest>
