@@ -3,6 +3,8 @@ package com.cogitator.adfreenews.view.main
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.cogitator.adfreenews.R
+import com.cogitator.adfreenews.view.article.ArticleFragment
+import com.cogitator.adfreenews.view.news.NewsSectionFragment
 import com.roughike.bottombar.OnTabSelectListener
 
 /**

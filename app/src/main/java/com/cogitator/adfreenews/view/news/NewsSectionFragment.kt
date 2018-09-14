@@ -1,5 +1,6 @@
 package com.cogitator.adfreenews.view.news
 
+import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
 import android.content.Context
 import android.os.Build
@@ -11,6 +12,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.cogitator.adfreenews.R
+import com.cogitator.adfreenews.view.article.ArticleFragment
+import kotlinx.android.synthetic.main.fragment_news_section.*
 
 /**
  * @author Ankit Kumar on 14/09/2018
