@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.cogitator.adfreenews.R
 import com.cogitator.adfreenews.model.News
+import kotlinx.android.synthetic.main.fragment_article.*
 
 /**
  * @author Ankit Kumar on 14/09/2018
