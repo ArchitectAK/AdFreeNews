@@ -12,6 +12,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.cogitator.adfreenews.R
+import com.cogitator.adfreenews.utils.CATEGORY_TO_TAB_POS_MAP
+import com.cogitator.adfreenews.utils.TAB_TO_COLOR_MAP
+import com.cogitator.adfreenews.utils.inflate
 import com.cogitator.adfreenews.view.article.ArticleFragment
 import kotlinx.android.synthetic.main.fragment_news_section.*
 

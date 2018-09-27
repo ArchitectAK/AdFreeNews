@@ -4,13 +4,14 @@ import android.app.ActivityOptions
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.cogitator.adfreenews.R
 import com.cogitator.adfreenews.model.News
+import com.cogitator.adfreenews.utils.gone
+import com.cogitator.adfreenews.utils.inflate
+import com.cogitator.adfreenews.utils.visible
 import com.cogitator.adfreenews.view.adapter.NewsListAdapter
 import com.cogitator.adfreenews.view.adapter.OnNewsItemClick
 import kotlinx.android.synthetic.main.fragment_bookmark_news.*
