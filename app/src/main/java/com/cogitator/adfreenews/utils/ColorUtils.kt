@@ -13,8 +13,7 @@ import java.lang.annotation.RetentionPolicy
 /**
  * @author Ankit Kumar on 27/09/2018
  */
-class ColorUtils{
-    private fun ColorUtils(): ??? {}
+class ColorUtils {
 
     val IS_LIGHT = 0
     val IS_DARK = 1
@@ -61,7 +60,7 @@ class ColorUtils{
     fun isDark(bitmap: Bitmap, backupPixelX: Int, backupPixelY: Int): Boolean {
         // first try palette with a small color quant size
         val palette = Palette.from(bitmap).maximumColorCount(3).generate()
-        return if (palette != null && palette.swatches.size > 0) {
+        return if (palette.swatches.size > 0) {
             isDark(palette) == IS_DARK
         } else {
             // if palette failed, then check the color of the specified pixel
@@ -96,7 +95,7 @@ class ColorUtils{
             lightnessMultiplier = 1f - lightnessMultiplier
         }
 
-        hsl[2] = MathUtils.constrain(0f, 1f, hsl[2] * lightnessMultiplier)
+        hsl[2] = constrain(0f, 1f, hsl[2] * lightnessMultiplier)
         return android.support.v4.graphics.ColorUtils.HSLToColor(hsl)
     }
 

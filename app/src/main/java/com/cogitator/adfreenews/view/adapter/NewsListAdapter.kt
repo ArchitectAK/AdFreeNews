@@ -9,6 +9,7 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.cogitator.adfreenews.model.News
+import com.cogitator.adfreenews.utils.inflate
 import kotlinx.android.synthetic.main.news_list_item.view.*
 
 /**
