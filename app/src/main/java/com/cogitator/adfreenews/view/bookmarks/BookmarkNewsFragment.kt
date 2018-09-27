@@ -11,6 +11,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.cogitator.adfreenews.R
 import com.cogitator.adfreenews.model.News
+import com.cogitator.adfreenews.view.adapter.NewsListAdapter
+import com.cogitator.adfreenews.view.adapter.OnNewsItemClick
+import kotlinx.android.synthetic.main.fragment_bookmark_news.*
 
 /**
  * @author Ankit Kumar on 24/09/2018
