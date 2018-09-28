@@ -14,6 +14,7 @@ import com.cogitator.adfreenews.utils.inflate
 import com.cogitator.adfreenews.utils.visible
 import com.cogitator.adfreenews.view.adapter.NewsListAdapter
 import com.cogitator.adfreenews.view.adapter.OnNewsItemClick
+import com.cogitator.adfreenews.view.newsDetail.NewsDetailActivity
 import kotlinx.android.synthetic.main.fragment_bookmark_news.*
 
 /**

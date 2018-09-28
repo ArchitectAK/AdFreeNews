@@ -4,6 +4,8 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.createChooser
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -15,14 +17,19 @@ import android.text.Html
 import android.transition.TransitionInflater
 import android.util.TypedValue
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.load.resource.drawable.UnitDrawableDecoder
 import com.cogitator.adfreenews.customs.CustomTabActivityHelper
 import com.cogitator.adfreenews.estaticity.SystemChromeFader
 import com.cogitator.adfreenews.model.News
 import com.cogitator.adfreenews.utils.AnimUtils.getFastOutSlowInInterpolator
 import com.cogitator.adfreenews.utils.ColorUtils
 import com.cogitator.adfreenews.utils.ViewUtils
+import kotlinx.android.synthetic.main.activity_news_detail.*
 import kotlinx.android.synthetic.main.news_list_item.*
 
 /**
@@ -30,7 +37,7 @@ import kotlinx.android.synthetic.main.news_list_item.*
  */
 
 class NewsDetailActivity : AppCompatActivity(), NewsDetailContract.View {
-    var mPresenter: NewsDetailContract.Presenter? = null;
+    var mPresenter: NewsDetailContract.Presenter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +49,7 @@ class NewsDetailActivity : AppCompatActivity(), NewsDetailContract.View {
         draggable_frame?.addListener(
                 object : SystemChromeFader(this@NewsDetailActivity) {
                     override fun onDragDismissed() {
-                        if (draggable_frame.getTranslationY() > 0) {
+                        if (draggable_frame.translationY > 0) {
                             window.returnTransition = TransitionInflater.from(this@NewsDetailActivity)
                                     .inflateTransition(R.transition.about_return_downward)
                         }
@@ -61,8 +68,9 @@ class NewsDetailActivity : AppCompatActivity(), NewsDetailContract.View {
             Glide.with(this)
                     .load(news.urlToImage ?: "")
                     .listener(requestListener)
-                    .placeholder(R.drawable.ic_placeholder)
-                    .error(R.drawable.ic_placeholder)
+                    .apply(RequestOptions()
+                            .placeholder(R.drawable.ic_placeholder)
+                            .error(R.drawable.ic_placeholder))
                     .into(newsIv)
             newsHeadlineTv.text = news.title
             newsDescriptionTv.text = news.description
@@ -80,7 +88,7 @@ class NewsDetailActivity : AppCompatActivity(), NewsDetailContract.View {
                     shareIntent.type = "text/plain"
                     shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                     val intent = createChooser(shareIntent, "send")
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     startActivity(intent)
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -101,27 +109,23 @@ class NewsDetailActivity : AppCompatActivity(), NewsDetailContract.View {
         }
     }
 
-    val requestListener = object : RequestListener<String, GlideDrawable> {
-        override fun onException(e: Exception?, model: String, target: Target<GlideDrawable>, isFirstResource: Boolean): Boolean {
-            return false
-        }
-
-        override fun onResourceReady(resource: GlideDrawable, model: String, target: Target<GlideDrawable>, isFromMemoryCache: Boolean, isFirstResource: Boolean): Boolean {
-            val bitmap = (resource?.getCurrent() as GlideBitmapDrawable).getBitmap()
-                    ?: return false
+    val requestListener = object : RequestListener<Drawable> {
+        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+            val bitmap: Bitmap = resource?.current as Bitmap
             val twentyFourDip = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                    24f, this@NewsDetailActivity.getResources().getDisplayMetrics()).toInt()
+                    24f, this@NewsDetailActivity.resources.displayMetrics).toInt()
+
             Palette.from(bitmap)
                     .maximumColorCount(3)
                     .clearFilters()
-                    .setRegion(0, 0, bitmap.getWidth() - 1, twentyFourDip)
-                    .generate({ palette ->
+                    .setRegion(0, 0, bitmap.width - 1, twentyFourDip)
+                    .generate { palette ->
                         val isDark: Boolean
                         val lightness = ColorUtils.isDark(palette)
-                        if (lightness == ColorUtils.LIGHTNESS_UNKNOWN) {
-                            isDark = ColorUtils.isDark(bitmap, bitmap.getWidth() / 2, 0)
+                        isDark = if (lightness == ColorUtils.LIGHTNESS_UNKNOWN) {
+                            ColorUtils.isDark(bitmap, bitmap.width / 2, 0)
                         } else {
-                            isDark = lightness == ColorUtils.IS_DARK
+                            lightness == ColorUtils.IS_DARK
                         }
 
                         if (!isDark) { // make back icon dark on light images
@@ -133,7 +137,7 @@ class NewsDetailActivity : AppCompatActivity(), NewsDetailContract.View {
                         val topColor = ColorUtils.getMostPopulousSwatch(palette)
 
                         if (topColor != null && (isDark || Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)) {
-                            statusBarColor = ColorUtils.scrimify(topColor.getRgb(),
+                            statusBarColor = ColorUtils.scrimify(topColor.rgb,
                                     isDark, SCRIM_ADJUSTMENT)
                             // set a light status bar on M+
                             if (!isDark && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -149,9 +153,21 @@ class NewsDetailActivity : AppCompatActivity(), NewsDetailContract.View {
                             statusBarColorAnim.interpolator = getFastOutSlowInInterpolator(this@NewsDetailActivity)
                             statusBarColorAnim.start()
                         }
-                    })
+                    }
 
             return false
+        }
+
+        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+            return false
+        }
+
+        fun onException(e: Exception?, model: String, target: Target<Drawable>, isFirstResource: Boolean): Boolean {
+            return false
+        }
+
+        fun onResourceReady(resource: Drawable, model: String, target: Target<Drawable>, isFromMemoryCache: Boolean, isFirstResource: Boolean): Boolean {
+
         }
     }
 
