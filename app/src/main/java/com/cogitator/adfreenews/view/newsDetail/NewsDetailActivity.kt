@@ -22,7 +22,8 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
-import com.bumptech.glide.load.resource.drawable.UnitDrawableDecoder
+import com.cogitator.adfreenews.Injection
+import com.cogitator.adfreenews.R
 import com.cogitator.adfreenews.customs.CustomTabActivityHelper
 import com.cogitator.adfreenews.estaticity.SystemChromeFader
 import com.cogitator.adfreenews.model.News
@@ -71,7 +72,7 @@ class NewsDetailActivity : AppCompatActivity(), NewsDetailContract.View {
                     .apply(RequestOptions()
                             .placeholder(R.drawable.ic_placeholder)
                             .error(R.drawable.ic_placeholder))
-                    .into(newsIv)
+                    .into(newsIv_news_detail)
             newsHeadlineTv.text = news.title
             newsDescriptionTv.text = news.description
 
@@ -109,7 +110,7 @@ class NewsDetailActivity : AppCompatActivity(), NewsDetailContract.View {
         }
     }
 
-    val requestListener = object : RequestListener<Drawable> {
+    private val requestListener = object : RequestListener<Drawable> {
         override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
             val bitmap: Bitmap = resource?.current as Bitmap
             val twentyFourDip = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
@@ -160,14 +161,6 @@ class NewsDetailActivity : AppCompatActivity(), NewsDetailContract.View {
 
         override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
             return false
-        }
-
-        fun onException(e: Exception?, model: String, target: Target<Drawable>, isFirstResource: Boolean): Boolean {
-            return false
-        }
-
-        fun onResourceReady(resource: Drawable, model: String, target: Target<Drawable>, isFromMemoryCache: Boolean, isFirstResource: Boolean): Boolean {
-
         }
     }
 

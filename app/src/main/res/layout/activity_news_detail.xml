@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.cogitator.adfreenews.estaticity.ElasticDragDismissFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.cogitator.adfreenews.estaticity.ElasticDragDismissFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/draggable_frame"
@@ -9,7 +10,7 @@
     app:dragDismissScale="0.95">
 
     <ImageView
-        android:id="@+id/newsIv"
+        android:id="@+id/newsIv_news_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/light_grey"
