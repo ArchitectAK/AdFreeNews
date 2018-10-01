@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
 import com.cogitator.adfreenews.R
 import com.cogitator.adfreenews.view.article.ArticleFragment
+import com.cogitator.adfreenews.view.bookmarks.BookmarkNewsFragment
 import com.cogitator.adfreenews.view.news.NewsSectionFragment
 import com.roughike.bottombar.OnTabSelectListener
 import kotlinx.android.synthetic.main.activity_main.*
@@ -14,14 +15,19 @@ import kotlinx.android.synthetic.main.activity_main.*
  * @author Ankit Kumar on 14/09/2018
  */
 
-class MainActivity : AppCompatActivity(), OnTabSelectListener, NewsSectionFragment.OnNewsSectionFragmentInteractionListener, ArticleFragment.OnArticleFragmentInteractionListener {
+class MainActivity : AppCompatActivity(), OnTabSelectListener,
+        NewsSectionFragment.OnNewsSectionFragmentInteractionListener,
+        BookmarkNewsFragment.OnBookmarkNewsFragmentInteractionListener,
+        ArticleFragment.OnArticleFragmentInteractionListener {
+
     var newsSectionFragment: NewsSectionFragment? = null
-    //    var bookmarkNewsFragment: BookmarkNewsFragment? = null
-//BookmarkNewsFragment.OnBookmarkNewsFragmentInteractionListener,
+    var bookmarkNewsFragment: BookmarkNewsFragment? = null
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-//            setSupportActionBar(toolbar)
+//        setSupportActionBar(toolbar)
         bottomNavigation.setDefaultTab(R.id.news)
         bottomNavigation.setOnTabSelectListener(this)
     }
@@ -34,17 +40,17 @@ class MainActivity : AppCompatActivity(), OnTabSelectListener, NewsSectionFragme
         bottomNavigation.setActiveTabColor(color)
     }
 
-//    override fun onBookmarkNewsFragmentAttach(fragment: BookmarkNewsFragment) {
-//        bookmarkNewsFragment = fragment
-//    }
-
-    override fun refreshBookmarksNews() {
-//        bookmarkNewsFragment?.refreshBookmarkNews()
+    override fun onBookmarkNewsFragmentAttach(fragment: BookmarkNewsFragment) {
+        bookmarkNewsFragment = fragment
     }
 
-//    override fun unBookmarkNews(newsId: String, category: String) {
-//        newsSectionFragment?.refreshBookmarkNewsByCategory(newsId, category)
-//    }
+    override fun refreshBookmarksNews() {
+        bookmarkNewsFragment?.refreshBookmarkNews()
+    }
+
+    override fun unBookmarkNews(newsId: String, category: String) {
+        newsSectionFragment?.refreshBookmarkNewsByCategory(newsId, category)
+    }
 
     override fun onNewsSectionFragmentAttach(fragment: NewsSectionFragment) {
         newsSectionFragment = fragment
@@ -54,7 +60,7 @@ class MainActivity : AppCompatActivity(), OnTabSelectListener, NewsSectionFragme
         try {
             val currentVisible = getVisibleFragment(fragmentManager)
             val newsSectionView = getFragmentByTag(fragmentManager, NewsSectionFragment.TAG) as NewsSectionFragment?
-//            val bookmarkNewsView = getFragmentByTag(fragmentManager, BookmarkNewsFragment.TAG) as BookmarkNewsFragment?
+            val bookmarkNewsView = getFragmentByTag(fragmentManager, BookmarkNewsFragment.TAG) as BookmarkNewsFragment?
 
             when (tabId) {
                 R.id.news -> {
@@ -64,10 +70,10 @@ class MainActivity : AppCompatActivity(), OnTabSelectListener, NewsSectionFragme
                         onShowHideFragment(fragmentManager, newsSectionView, currentVisible)
                 }
                 R.id.boomarks -> {
-//                    if (bookmarkNewsView == null)
-//                        onAddAndHide(fragmentManager, BookmarkNewsFragment.newInstance(), currentVisible)
-//                    else
-//                        onShowHideFragment(fragmentManager, bookmarkNewsView, currentVisible)
+                    if (bookmarkNewsView == null)
+                        onAddAndHide(fragmentManager, BookmarkNewsFragment.newInstance(), currentVisible)
+                    else
+                        onShowHideFragment(fragmentManager, bookmarkNewsView, currentVisible)
                 }
             }
         } catch (e: Exception) {
@@ -81,7 +87,7 @@ class MainActivity : AppCompatActivity(), OnTabSelectListener, NewsSectionFragme
 
     fun getVisibleFragment(manager: FragmentManager): Fragment? {
         val fragments = manager.fragments
-        if (fragments != null && !fragments.isEmpty()) {
+        if (!fragments.isEmpty()) {
             for (fragment in fragments) {
                 if (fragment != null && fragment.isVisible) {
                     return fragment
