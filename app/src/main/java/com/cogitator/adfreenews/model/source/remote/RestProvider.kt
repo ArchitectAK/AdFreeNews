@@ -43,6 +43,6 @@ object RestProvider {
     }
 
     fun getNewsService(): NewsService {
-        return provideRetrofit().create(NewsService::class.java!!)
+        return provideRetrofit().create(NewsService::class.java)
     }
 }

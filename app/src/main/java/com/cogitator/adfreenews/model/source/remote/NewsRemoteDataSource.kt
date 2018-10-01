@@ -4,6 +4,7 @@ import com.cogitator.adfreenews.model.News
 import com.cogitator.adfreenews.model.source.NewsDataSource
 import com.cogitator.adfreenews.model.source.RemoteDataNotFoundException
 import com.cogitator.adfreenews.model.source.Result
+import com.cogitator.adfreenews.utils.getResult
 
 /**
  * @author Ankit Kumar on 01/10/2018
@@ -13,12 +14,12 @@ import com.cogitator.adfreenews.model.source.Result
 class NewsRemoteDataSource private constructor(val newsService: NewsService) : NewsDataSource {
 
 
-    suspend override fun getNewsById(id: String): Result<News> {
+    override suspend fun getNewsById(id: String): Result<News> {
         //no need
         return Result.Error(RemoteDataNotFoundException())
     }
 
-    suspend override fun getNewsByCategory(category: String): Result<ArrayList<News>> {
+    override suspend fun getNewsByCategory(category: String): Result<ArrayList<News>> {
         val newsResponseResult = newsService.getNews(category).getResult()
         return when (newsResponseResult) {
             is Result.Success -> {
@@ -30,7 +31,6 @@ class NewsRemoteDataSource private constructor(val newsService: NewsService) : N
             is Result.Error -> {
                 newsResponseResult
             }
-
         }
     }
 
@@ -42,7 +42,7 @@ class NewsRemoteDataSource private constructor(val newsService: NewsService) : N
         //No need
     }
 
-    override suspend fun deleteNews(category: String,isBookmarked: Boolean) {
+    override suspend fun deleteNews(category: String, isBookmarked: Boolean) {
         //no need
     }
 

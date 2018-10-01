@@ -32,7 +32,7 @@ android {
         Properties properties = new Properties()
         properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
-        it.buildConfigField 'String', 'NEWS_READER_API_KEY', properties.getProperty("store.api")
+        it.buildConfigField "String", "NEWS_READER_API_KEY", properties.getProperty("store.api")
 
     }
 

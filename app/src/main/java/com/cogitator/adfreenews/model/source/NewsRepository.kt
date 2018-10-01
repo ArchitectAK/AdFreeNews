@@ -85,7 +85,7 @@ class NewsRepository(val newsRemoteDataSource: NewsDataSource,
 
         val list = ArrayList(newsList.distinctBy { it.url })
         list.forEach {
-            if (it.id == null || it.id.isEmpty()) {
+            if (it.id.isEmpty()) {
                 it.id = UUID.randomUUID().toString()
                 it.category = category
                 saveNews(it)

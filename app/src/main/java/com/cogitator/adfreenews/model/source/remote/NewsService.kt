@@ -1,6 +1,6 @@
 package com.cogitator.adfreenews.model.source.remote
 
-import android.telecom.Call
+import retrofit2.Call
 import com.cogitator.adfreenews.model.NewsResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -11,7 +11,6 @@ import retrofit2.http.Query
 
 interface NewsService {
 
-    //for now country india
     @GET("top-headlines")
     fun getNews(@Query("category") category: String,
                 @Query("country") country: String = "in",
