@@ -29,7 +29,10 @@ android {
         }
     }
     buildTypes.each {
-        it.buildConfigField 'String', 'NEWS_READER_API_KEY', '8e90af43505b4e5c998b731f94bda1bb'
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+        it.buildConfigField 'String', 'NEWS_READER_API_KEY', properties.getProperty("store.api")
 
     }
 
