@@ -1,7 +1,11 @@
 package com.cogitator.adfreenews
 
 import android.content.Context
+import com.cogitator.adfreenews.model.source.local.NewsDatabase
+import com.cogitator.adfreenews.model.source.local.NewsLocalDataSource
 import com.cogitator.adfreenews.model.source.NewsRepository
+import com.cogitator.adfreenews.model.source.remote.NewsRemoteDataSource
+import com.cogitator.adfreenews.model.source.remote.RestProvider
 import com.cogitator.adfreenews.utils.AppExecutors
 
 /**

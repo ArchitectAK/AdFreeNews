@@ -1,7 +1,10 @@
 package com.cogitator.adfreenews.model.source
 
 import android.preference.PreferenceManager.getDefaultSharedPreferences
+import com.cogitator.adfreenews.NewsApp
 import com.cogitator.adfreenews.model.News
+import com.cogitator.adfreenews.utils.isNetConnected
+import com.cogitator.adfreenews.utils.isTimeGt1Hr
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.LinkedHashMap
@@ -123,13 +126,13 @@ class NewsRepository(val newsRemoteDataSource: NewsDataSource,
     }
 
     fun setLatestFetchTimestamp(category: String) {
-        val edit = getDefaultSharedPreferences(App.getInstance()).edit()
+        val edit = getDefaultSharedPreferences(NewsApp.getInstance()).edit()
         edit.putLong("${category}latestFetchTimestamp", Date().time)
-        edit.commit()
+        edit.apply()
     }
 
     fun getLatestFetchTimestamp(category: String): Long {
-        val time = getDefaultSharedPreferences(App.getInstance()).getLong("${category}latestFetchTimestamp", 0)
+        val time = getDefaultSharedPreferences(NewsApp.getInstance()).getLong("${category}latestFetchTimestamp", 0)
         return time
     }
 

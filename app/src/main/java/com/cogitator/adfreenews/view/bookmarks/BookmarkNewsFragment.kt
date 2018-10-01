@@ -8,6 +8,8 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.cogitator.adfreenews.Injection
+import com.cogitator.adfreenews.R
 import com.cogitator.adfreenews.model.News
 import com.cogitator.adfreenews.utils.gone
 import com.cogitator.adfreenews.utils.inflate

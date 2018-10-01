@@ -2,6 +2,7 @@ package com.cogitator.adfreenews.estaticity
 
 import android.app.Activity
 import android.graphics.Color
+import com.cogitator.adfreenews.utils.ColorUtils
 import com.cogitator.adfreenews.utils.ViewUtils
 
 /**

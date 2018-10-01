@@ -1,5 +1,7 @@
 package com.cogitator.adfreenews.utils
 
+import com.cogitator.adfreenews.R
+
 /**
  * @author Ankit Kumar on 27/09/2018
  */

@@ -1,4 +1,4 @@
-package com.cogitator.adfreenews.model.local
+package com.cogitator.adfreenews.model.source.local
 
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert

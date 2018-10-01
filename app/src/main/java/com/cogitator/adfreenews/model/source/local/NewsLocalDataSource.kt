@@ -1,4 +1,4 @@
-package com.cogitator.adfreenews.model.local
+package com.cogitator.adfreenews.model.source.local
 
 import com.cogitator.adfreenews.model.News
 import com.cogitator.adfreenews.model.source.LocalDataNotFoundException

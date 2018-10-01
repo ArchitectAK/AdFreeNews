@@ -2,7 +2,9 @@ package com.cogitator.adfreenews.view.newsDetail
 
 import com.cogitator.adfreenews.model.News
 import com.cogitator.adfreenews.model.source.NewsRepository
+import com.cogitator.adfreenews.model.source.Result
 import com.cogitator.adfreenews.utils.launchSilent
+import kotlinx.coroutines.experimental.android.UI
 import kotlin.coroutines.experimental.CoroutineContext
 
 /**

@@ -93,18 +93,22 @@ class MainActivity : AppCompatActivity(), OnTabSelectListener, NewsSectionFragme
 
     fun onShowHideFragment(fragmentManager: FragmentManager, toShow: Fragment?, toHide: Fragment?) {
         if (toHide == null) {
-            fragmentManager
-                    .beginTransaction()
-                    .show(toShow)
-                    .commit()
+            toShow?.let {
+                fragmentManager
+                        .beginTransaction()
+                        .show(it)
+                        .commit()
+            }
             toShow?.onHiddenChanged(false)
         } else {
             toHide.onHiddenChanged(true)
-            fragmentManager
-                    .beginTransaction()
-                    .hide(toHide)
-                    .show(toShow)
-                    .commit()
+            toShow?.let {
+                fragmentManager
+                        .beginTransaction()
+                        .hide(toHide)
+                        .show(it)
+                        .commit()
+            }
             toShow?.onHiddenChanged(false)
         }
     }
