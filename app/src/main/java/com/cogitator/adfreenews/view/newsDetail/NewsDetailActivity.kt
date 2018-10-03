@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.Intent.createChooser
 import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
@@ -112,7 +113,7 @@ class NewsDetailActivity : AppCompatActivity(), NewsDetailContract.View {
 
     private val requestListener = object : RequestListener<Drawable> {
         override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-            val bitmap: Bitmap = resource?.current as Bitmap
+            val bitmap: Bitmap = (resource?.current as BitmapDrawable).bitmap
             val twentyFourDip = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                     24f, this@NewsDetailActivity.resources.displayMetrics).toInt()
 
@@ -142,7 +143,7 @@ class NewsDetailActivity : AppCompatActivity(), NewsDetailContract.View {
                                     isDark, SCRIM_ADJUSTMENT)
                             // set a light status bar on M+
                             if (!isDark && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                ViewUtils.setLightStatusBar(newsIv)
+                                ViewUtils.setLightStatusBar(newsIv_news_detail)
 
                             }
                         }

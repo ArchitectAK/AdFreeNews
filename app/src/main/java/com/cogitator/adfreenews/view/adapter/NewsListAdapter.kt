@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.news_list_item.view.*
  * @author Ankit Kumar on 27/09/2018
  */
 
-class NewsListAdapter(var newsList: ArrayList<News>, val onNewsItemClick: OnNewsItemClick) : RecyclerView.Adapter<NewsListAdapter.NewsItemViewHolder>() {
+class NewsListAdapter(var newsList: ArrayList<News>, private val onNewsItemClick: OnNewsItemClick) : RecyclerView.Adapter<NewsListAdapter.NewsItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsItemViewHolder = NewsItemViewHolder(parent.inflate(R.layout.news_list_item))
 

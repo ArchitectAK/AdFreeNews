@@ -14,5 +14,5 @@ interface NewsService {
     @GET("top-headlines")
     fun getNews(@Query("category") category: String,
                 @Query("country") country: String = "in",
-                @Query("pageSize") pageSize: Int = 15): Call<NewsResponse>
+                @Query("pageSize") pageSize: Int = 20): Call<NewsResponse>
 }

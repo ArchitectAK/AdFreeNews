@@ -3,11 +3,15 @@
     <tab
         icon="@drawable/ic_news"
         id="@+id/news"
-        title="@string/news"/>
+        title="@string/news" />
 
     <tab
         icon="@drawable/ic_bookmark"
         id="@+id/boomarks"
-        title="@string/bookmarks"/>
+        title="@string/bookmarks" />
+    <tab
+        icon="@drawable/ic_settings"
+        id="@+id/settings"
+        title="@string/settings" />
 
 </tabs>

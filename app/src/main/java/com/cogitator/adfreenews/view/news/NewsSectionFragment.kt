@@ -26,14 +26,10 @@ class NewsSectionFragment : Fragment() {
 
     var mListener: OnNewsSectionFragmentInteractionListener? = null
 
-    val newsCategoryList = listOf("Science", "Entertainment", "Technology", "Health", "Sports", "Business")
+    private val newsCategoryList = listOf("General", "Science", "Entertainment", "Technology", "Health", "Sports", "Business")
 
-    val adapter: NewsPagerAdapter by lazy {
+    private val adapter: NewsPagerAdapter by lazy {
         NewsPagerAdapter(childFragmentManager, newsCategoryList)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = container?.inflate(R.layout.fragment_news_section)
@@ -49,7 +45,7 @@ class NewsSectionFragment : Fragment() {
         pager.currentItem = 0
     }
 
-    var onTabSelectedListener: TabLayout.OnTabSelectedListener = object : TabLayout.OnTabSelectedListener {
+    private var onTabSelectedListener: TabLayout.OnTabSelectedListener = object : TabLayout.OnTabSelectedListener {
         override fun onTabReselected(tab: TabLayout.Tab?) {
         }
 
@@ -58,7 +54,7 @@ class NewsSectionFragment : Fragment() {
 
         override fun onTabSelected(tab: TabLayout.Tab?) {
             val colorFrom = activity?.window?.statusBarColor
-            val colorTo = getColorForTab(tab?.getPosition() ?: 0)
+            val colorTo = getColorForTab(tab?.position ?: 0)
 
             val colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo)
             colorAnimation.duration = 1000

@@ -11,7 +11,7 @@ import com.cogitator.adfreenews.utils.getResult
  */
 
 
-class NewsRemoteDataSource private constructor(val newsService: NewsService) : NewsDataSource {
+class NewsRemoteDataSource private constructor(private val newsService: NewsService) : NewsDataSource {
 
 
     override suspend fun getNewsById(id: String): Result<News> {

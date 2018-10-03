@@ -5,4 +5,5 @@
     <string name="loading">LOADING</string>
     <string name="news">News</string>
     <string name="bookmarks">Bookmarks</string>
+    <string name="settings">Settings</string>
 </resources>

@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity(), OnTabSelectListener,
         newsSectionFragment = fragment
     }
 
-    fun onFragmentChanged(fragmentManager: FragmentManager, tabId: Int) {
+    private fun onFragmentChanged(fragmentManager: FragmentManager, tabId: Int) {
         try {
             val currentVisible = getVisibleFragment(fragmentManager)
             val newsSectionView = getFragmentByTag(fragmentManager, NewsSectionFragment.TAG) as NewsSectionFragment?
@@ -75,17 +75,20 @@ class MainActivity : AppCompatActivity(), OnTabSelectListener,
                     else
                         onShowHideFragment(fragmentManager, bookmarkNewsView, currentVisible)
                 }
+                R.id.settings -> {
+                    
+                }
             }
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
-    fun getFragmentByTag(fragmentManager: FragmentManager, tag: String): Fragment? {
+    private fun getFragmentByTag(fragmentManager: FragmentManager, tag: String): Fragment? {
         return fragmentManager.findFragmentByTag(tag)
     }
 
-    fun getVisibleFragment(manager: FragmentManager): Fragment? {
+    private fun getVisibleFragment(manager: FragmentManager): Fragment? {
         val fragments = manager.fragments
         if (!fragments.isEmpty()) {
             for (fragment in fragments) {
@@ -97,7 +100,7 @@ class MainActivity : AppCompatActivity(), OnTabSelectListener,
         return null
     }
 
-    fun onShowHideFragment(fragmentManager: FragmentManager, toShow: Fragment?, toHide: Fragment?) {
+    private fun onShowHideFragment(fragmentManager: FragmentManager, toShow: Fragment?, toHide: Fragment?) {
         if (toHide == null) {
             toShow?.let {
                 fragmentManager
@@ -119,7 +122,7 @@ class MainActivity : AppCompatActivity(), OnTabSelectListener,
         }
     }
 
-    fun onAddAndHide(fragmentManager: FragmentManager, toAdd: Fragment, toHide: Fragment?) {
+    private fun onAddAndHide(fragmentManager: FragmentManager, toAdd: Fragment, toHide: Fragment?) {
 
         if (toHide == null) {
             fragmentManager

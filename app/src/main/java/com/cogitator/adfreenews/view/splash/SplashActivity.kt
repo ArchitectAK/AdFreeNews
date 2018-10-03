@@ -44,9 +44,7 @@ class SplashActivity : AppCompatActivity() {
                 }
             })
         } catch (e: Exception) {
-//            Crashlytics.logException(e)
             proceedForMainScreen()
-
         }
     }
 
