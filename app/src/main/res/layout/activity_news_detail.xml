@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:dragDismissDistance="112dp"
-    app:dragDismissScale="0.95">
+    app:dragDismissScale="0.1">
 
     <ImageView
         android:id="@+id/newsIv_news_detail"

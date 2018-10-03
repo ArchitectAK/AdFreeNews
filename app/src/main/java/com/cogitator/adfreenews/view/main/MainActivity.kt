@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity(), OnTabSelectListener,
                         onShowHideFragment(fragmentManager, bookmarkNewsView, currentVisible)
                 }
                 R.id.settings -> {
-                    
+
                 }
             }
         } catch (e: Exception) {
