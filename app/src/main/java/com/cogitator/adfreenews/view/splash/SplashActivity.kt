@@ -10,6 +10,7 @@ import com.cogitator.adfreenews.R
 import com.cogitator.adfreenews.view.main.MainActivity
 import kotlinx.android.synthetic.main.activity_splash.*
 
+
 /**
  * @author Ankit Kumar (ankitdroiddeveloper@gmail.com) on 1/9/18 (MM/DD/YYYY)
  */
@@ -33,10 +34,12 @@ class SplashActivity : AppCompatActivity() {
 
                 override fun onAnimationEnd(animation: Animator) {
                     proceedForMainScreen()
+//                    animatedStartActivity()
                 }
 
                 override fun onAnimationCancel(animation: Animator) {
                     proceedForMainScreen()
+//                    animatedStartActivity()
                 }
 
                 override fun onAnimationRepeat(animation: Animator) {
@@ -45,6 +48,7 @@ class SplashActivity : AppCompatActivity() {
             })
         } catch (e: Exception) {
             proceedForMainScreen()
+//            animatedStartActivity()
         }
     }
 
@@ -55,4 +59,20 @@ class SplashActivity : AppCompatActivity() {
         this@SplashActivity.finish()
     }
 
+//    private fun animatedStartActivity() {
+//        // we only animateOut this activity here.
+//        // The new activity will animateIn from its onResume() - be sure to
+//        // implement it.
+//        val intent = Intent(applicationContext, MainActivity::class.java)
+//        // disable default animation for new intent
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+//        ActivitySwitcher.animationOut(findViewById<View>(R.id.container_splash),
+//                windowManager,
+//                object : ActivitySwitcher.AnimationFinishedListener {
+//                    override fun onAnimationFinished() {
+//                        startActivity(intent)
+//                        finish()
+//                    }
+//                })
+//    }
 }

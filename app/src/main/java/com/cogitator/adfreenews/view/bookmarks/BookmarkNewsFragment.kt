@@ -4,6 +4,7 @@ import android.app.ActivityOptions
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.view.ViewCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -88,8 +89,9 @@ class BookmarkNewsFragment : Fragment(), BookmarkNewsContract.View, OnNewsItemCl
         mListener?.unBookmarkNews(news.id, news.category ?: "General")
     }
 
-    override fun onItemClick(newsId: String) {
-        context?.let { startActivity(NewsDetailActivity.createIntent(it, newsId), ActivityOptions.makeSceneTransitionAnimation(activity).toBundle()) }
+    override fun onItemClick(newsId: String, sharedView: View?) {
+        val transition = sharedView?.let { ViewCompat.getTransitionName(it) }
+        context?.let { startActivity(sharedView?.let { it1 -> NewsDetailActivity.createIntent(it, newsId, it1) }, ActivityOptions.makeSceneTransitionAnimation(activity, sharedView, transition).toBundle()) }
     }
 
     override fun onAttach(context: Context?) {

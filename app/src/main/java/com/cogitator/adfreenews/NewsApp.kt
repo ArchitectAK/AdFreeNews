@@ -4,8 +4,6 @@ import android.app.Application
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.core.CrashlyticsCore
 import io.fabric.sdk.android.Fabric
-import android.support.annotation.NonNull
-import okhttp3.internal.Internal.instance
 
 
 /**

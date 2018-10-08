@@ -5,11 +5,13 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
 import com.cogitator.adfreenews.R
+import com.cogitator.adfreenews.customs.ActivitySwitcher
 import com.cogitator.adfreenews.view.article.ArticleFragment
 import com.cogitator.adfreenews.view.bookmarks.BookmarkNewsFragment
 import com.cogitator.adfreenews.view.news.NewsSectionFragment
 import com.roughike.bottombar.OnTabSelectListener
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 /**
  * @author Ankit Kumar on 14/09/2018
@@ -75,9 +77,9 @@ class MainActivity : AppCompatActivity(), OnTabSelectListener,
                     else
                         onShowHideFragment(fragmentManager, bookmarkNewsView, currentVisible)
                 }
-                R.id.settings -> {
-
-                }
+//                R.id.settings -> {
+//
+//                }
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -139,6 +141,5 @@ class MainActivity : AppCompatActivity(), OnTabSelectListener,
                     .commit()
             toAdd.onHiddenChanged(false)
         }
-
     }
 }

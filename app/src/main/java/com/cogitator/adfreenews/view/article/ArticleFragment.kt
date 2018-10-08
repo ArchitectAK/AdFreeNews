@@ -4,10 +4,12 @@ import android.app.ActivityOptions
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.view.ViewCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import com.cogitator.adfreenews.Injection
 import com.cogitator.adfreenews.R
 import com.cogitator.adfreenews.model.News
@@ -18,6 +20,7 @@ import com.cogitator.adfreenews.view.adapter.NewsListAdapter
 import com.cogitator.adfreenews.view.adapter.OnNewsItemClick
 import com.cogitator.adfreenews.view.newsDetail.NewsDetailActivity
 import kotlinx.android.synthetic.main.fragment_article.*
+
 
 /**
  * @author Ankit Kumar on 14/09/2018
@@ -47,6 +50,10 @@ class ArticleFragment : Fragment(), ArticleContract.View, OnNewsItemClick {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mPresenter?.getArticlesByCategory(newsCategory)
+        swiperefresh?.setOnRefreshListener {
+            swiperefresh.isRefreshing = true
+            mPresenter?.getArticlesByCategory(newsCategory)
+        }
     }
 
     override fun onNewsListEmpty() {
@@ -80,14 +87,17 @@ class ArticleFragment : Fragment(), ArticleContract.View, OnNewsItemClick {
         newsAdapter.refreshBookmarkStatus(newsId)
     }
 
-    override fun onItemClick(newsId: String) {
-        context?.let { startActivity(NewsDetailActivity.createIntent(it, newsId), ActivityOptions.makeSceneTransitionAnimation(activity).toBundle()) }
+    override fun onItemClick(newsId: String, sharedView: View?) {
+        val transition = sharedView?.let { ViewCompat.getTransitionName(it) }
+        context?.let { startActivity(sharedView?.let { it1 -> NewsDetailActivity.createIntent(it, newsId, it1) }, ActivityOptions.makeSceneTransitionAnimation(activity, sharedView, transition).toBundle()) }
     }
 
     override fun showLoader() {
         loader.visible()
+        swiperefresh.isRefreshing = true
         errorTv.gone()
         newsListRv.gone()
+        swiperefresh.gone()
     }
 
     override fun showArticles(articleList: ArrayList<News>) {
@@ -96,15 +106,23 @@ class ArticleFragment : Fragment(), ArticleContract.View, OnNewsItemClick {
             it.layoutManager = LinearLayoutManager(context)
             it.adapter = newsAdapter
         }
+        swiperefresh.isRefreshing = false
         loader.gone()
         errorTv.gone()
         newsListRv.visible()
+        swiperefresh.visible()
+
+        val resId = R.anim.layout_animation_fall_down
+        val animation = AnimationUtils.loadLayoutAnimation(context, resId)
+        newsListRv.layoutAnimation = animation
     }
 
     override fun showError() {
         loader.gone()
+        swiperefresh.isRefreshing = false
         errorTv.visible()
         newsListRv.gone()
+        swiperefresh.gone()
     }
 
     override fun onDestroyView() {

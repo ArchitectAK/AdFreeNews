@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">AdFreeNews</string>
-    <string name="no_ad">No Ad</string>
+    <string name="app_name">The News</string>
+    <string name="no_ad">The News - no ads</string>
     <string name="scroll_behavior" translatable="false">@string/appbar_scrolling_view_behavior</string>
     <string name="loading">LOADING</string>
-    <string name="news">News</string>
-    <string name="bookmarks">Bookmarks</string>
+    <string name="news">Latest</string>
+    <string name="bookmarks">Saved</string>
     <string name="settings">Settings</string>
 </resources>

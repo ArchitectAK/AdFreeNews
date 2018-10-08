@@ -9,9 +9,10 @@
         icon="@drawable/ic_bookmark"
         id="@+id/boomarks"
         title="@string/bookmarks" />
-    <tab
-        icon="@drawable/ic_settings"
-        id="@+id/settings"
-        title="@string/settings" />
+
+    <!--<tab-->
+    <!--icon="@drawable/ic_settings"-->
+    <!--id="@+id/settings"-->
+    <!--title="@string/settings" />-->
 
 </tabs>

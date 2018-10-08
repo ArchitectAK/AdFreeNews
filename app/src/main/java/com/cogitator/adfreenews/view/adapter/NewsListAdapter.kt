@@ -34,8 +34,9 @@ class NewsListAdapter(var newsList: ArrayList<News>, private val onNewsItemClick
             newsItem.isBookmarked = !newsItem.isBookmarked
             onNewsItemClick.onBookmarkIvClick(newsItem, holder.adapterPosition)
         }
+        holder.itemView.newsIv.transitionName = "transition $position"
         holder.itemView.cardView.setOnClickListener {
-            onNewsItemClick.onItemClick(newsItem.id)
+            onNewsItemClick.onItemClick(newsItem.id, holder.itemView.newsIv)
         }
 
     }
@@ -48,7 +49,7 @@ class NewsListAdapter(var newsList: ArrayList<News>, private val onNewsItemClick
     fun refreshBookmarkStatus(newsId: String) {
         val position = newsList.indexOfFirst { it.id == newsId }
         val news = newsList[position]
-        newsList.set(position, news)
+        newsList[position] = news
         notifyItemChanged(position)
     }
 
@@ -61,7 +62,7 @@ class NewsListAdapter(var newsList: ArrayList<News>, private val onNewsItemClick
 
     override fun getItemCount(): Int = newsList.size
 
-    fun showCategoryImage(newsIv: ImageView, imageUrl: String, context: Context) {
+    private fun showCategoryImage(newsIv: ImageView, imageUrl: String, context: Context) {
         try {
 
             Glide.with(context)
@@ -81,6 +82,6 @@ class NewsListAdapter(var newsList: ArrayList<News>, private val onNewsItemClick
 
 interface OnNewsItemClick {
     fun onBookmarkIvClick(news: News, position: Int)
-    fun onItemClick(newsId: String)
+    fun onItemClick(newsId: String, sharedView: View?)
     fun onNewsListEmpty()
 }

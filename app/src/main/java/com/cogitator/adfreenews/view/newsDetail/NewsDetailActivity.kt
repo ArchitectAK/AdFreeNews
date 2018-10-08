@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.Intent.createChooser
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -12,11 +13,13 @@ import android.os.Build
 import android.os.Bundle
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.content.ContextCompat
+import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.graphics.Palette
 import android.text.Html
 import android.transition.TransitionInflater
 import android.util.TypedValue
+import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -60,6 +63,12 @@ class NewsDetailActivity : AppCompatActivity(), NewsDetailContract.View {
                 })
 
         mPresenter?.getArticleById(intent.getStringExtra(NEWS_ID) ?: "")
+        val transitionName = intent.getStringExtra("transitionName")
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            newsIv_news_detail.transitionName = transitionName
+        }
+        supportStartPostponedEnterTransition()
 
     }
 
@@ -113,49 +122,52 @@ class NewsDetailActivity : AppCompatActivity(), NewsDetailContract.View {
 
     private val requestListener = object : RequestListener<Drawable> {
         override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-            val bitmap: Bitmap = (resource?.current as BitmapDrawable).bitmap
-            val twentyFourDip = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                    24f, this@NewsDetailActivity.resources.displayMetrics).toInt()
+            if (resource?.current is BitmapDrawable) {
+                val bitmap: Bitmap? = (resource.current as BitmapDrawable).bitmap
+                val twentyFourDip = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                        24f, this@NewsDetailActivity.resources.displayMetrics).toInt()
+                bitmap?.let {
+                    Palette.from(it)
+                            .maximumColorCount(3)
+                            .clearFilters()
+                            .setRegion(0, 0, bitmap.width - 1, twentyFourDip)
+                            .generate { palette ->
+                                val isDark: Boolean
+                                val lightness = ColorUtils.isDark(palette)
+                                isDark = if (lightness == ColorUtils.LIGHTNESS_UNKNOWN) {
+                                    ColorUtils.isDark(bitmap, bitmap.width / 2, 0)
+                                } else {
+                                    lightness == ColorUtils.IS_DARK
+                                }
 
-            Palette.from(bitmap)
-                    .maximumColorCount(3)
-                    .clearFilters()
-                    .setRegion(0, 0, bitmap.width - 1, twentyFourDip)
-                    .generate { palette ->
-                        val isDark: Boolean
-                        val lightness = ColorUtils.isDark(palette)
-                        isDark = if (lightness == ColorUtils.LIGHTNESS_UNKNOWN) {
-                            ColorUtils.isDark(bitmap, bitmap.width / 2, 0)
-                        } else {
-                            lightness == ColorUtils.IS_DARK
-                        }
+                                if (!isDark) { // make back icon dark on light images
+                                    back.setColorFilter(ContextCompat.getColor(
+                                            this@NewsDetailActivity, R.color.dark_icon))
+                                }
 
-                        if (!isDark) { // make back icon dark on light images
-                            back.setColorFilter(ContextCompat.getColor(
-                                    this@NewsDetailActivity, R.color.dark_icon))
-                        }
+                                var statusBarColor = window.statusBarColor
+                                val topColor = ColorUtils.getMostPopulousSwatch(palette)
 
-                        var statusBarColor = window.statusBarColor
-                        val topColor = ColorUtils.getMostPopulousSwatch(palette)
+                                if (topColor != null && (isDark || Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)) {
+                                    statusBarColor = ColorUtils.scrimify(topColor.rgb,
+                                            isDark, SCRIM_ADJUSTMENT)
+                                    // set a light status bar on M+
+                                    if (!isDark && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                        ViewUtils.setLightStatusBar(newsIv_news_detail)
 
-                        if (topColor != null && (isDark || Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)) {
-                            statusBarColor = ColorUtils.scrimify(topColor.rgb,
-                                    isDark, SCRIM_ADJUSTMENT)
-                            // set a light status bar on M+
-                            if (!isDark && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                ViewUtils.setLightStatusBar(newsIv_news_detail)
+                                    }
+                                }
 
+                                if (statusBarColor != window.statusBarColor) {
+                                    val statusBarColorAnim = ValueAnimator.ofArgb(window.statusBarColor, statusBarColor)
+                                    statusBarColorAnim.addUpdateListener { animation -> window.statusBarColor = animation.animatedValue as Int }
+                                    statusBarColorAnim.duration = 1000L
+                                    statusBarColorAnim.interpolator = getFastOutSlowInInterpolator(this@NewsDetailActivity)
+                                    statusBarColorAnim.start()
+                                }
                             }
-                        }
-
-                        if (statusBarColor != window.statusBarColor) {
-                            val statusBarColorAnim = ValueAnimator.ofArgb(window.statusBarColor, statusBarColor)
-                            statusBarColorAnim.addUpdateListener { animation -> window.statusBarColor = animation.animatedValue as Int }
-                            statusBarColorAnim.duration = 1000L
-                            statusBarColorAnim.interpolator = getFastOutSlowInInterpolator(this@NewsDetailActivity)
-                            statusBarColorAnim.start()
-                        }
-                    }
+                }
+            }
 
             return false
         }
@@ -174,8 +186,9 @@ class NewsDetailActivity : AppCompatActivity(), NewsDetailContract.View {
         private val SCRIM_ADJUSTMENT = 0.075f
         val NEWS_ID = "news_id"
 
-        fun createIntent(context: Context, newsID: String): Intent {
+        fun createIntent(context: Context, newsID: String, sharedView: View): Intent {
             val intent = Intent(context, NewsDetailActivity::class.java)
+            intent.putExtra("transitionName", ViewCompat.getTransitionName(sharedView))
             intent.putExtra(NEWS_ID, newsID)
             return intent
         }
