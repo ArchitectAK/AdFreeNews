@@ -15,7 +15,7 @@ A project for demonstrating news.org api
 
 ![](https://raw.githubusercontent.com/AnkitDroidGit/AdFreeNews/master/docs/news4.png)
 
-![](https://raw.githubusercontent.com/AnkitDroidGit/AdFreeNews/master/docs/news5.png)
+![](https://raw.githubusercontent.com/AnkitDroidGit/AdFreeNews/master/docs/news6.png)
 
 
 **AddFreeNews** can be download from [Google Play](https://play.google.com/store/apps/details?id=com.cogitator.adfreenews) as **The News - No Ads**
